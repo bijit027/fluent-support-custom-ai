@@ -1,0 +1,949 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Fluent Support Pro\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-25 12:15+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.6; wp-6.3.2\n"
+"X-Domain: fluent-support-pro"
+
+#: app/Services/CustomFieldsService.php:169
+#: app/Services/CustomFieldsService.php:174
+#, php-format
+msgid "%s is required"
+msgstr ""
+
+#: app/Services/Integrations/MemberPress.php:97
+msgid ")"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:228
+msgid ""
+"</code></strong> Copy this URL to make your agent able to reply ticket from "
+"WhatsApp."
+msgstr ""
+
+#: app/Http/Controllers/WorkflowsController.php:241
+msgid "Action sequence has been updated"
+msgstr ""
+
+#: app/Services/Integrations/RCPro.php:145
+msgid "Activated:"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:188
+msgid "Add Custom Response when closing the ticket"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:108
+msgid "Agent Assigned To Ticket"
+msgstr ""
+
+#: app/Services/TicketImporter/FreshDeskTickets.php:55
+#: app/Services/TicketImporter/ZendeskTickets.php:61
+msgid "All tickets has been imported successfully"
+msgstr ""
+
+#: app/Services/TicketImporter/HelpScoutTickets.php:80
+msgid "All tickets have been imported successfully"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:90
+#: app/Services/Integrations/Telegram/TelegramNotification.php:91
+msgid "Bot Token"
+msgstr ""
+
+#: app/Services/Integrations/BuddyBoss.php:23
+#: app/Services/Integrations/BuddyBoss.php:162
+msgid "BuddyBoss Groups"
+msgstr ""
+
+#: app/Services/Integrations/BuddyBoss.php:21
+msgid "BuddyBoss groups will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/BuddyBoss.php:31
+msgid "BuddyBoss User Groups"
+msgstr ""
+
+#: app/Services/Integrations/BuddyBoss.php:29
+msgid "BuddyBoss user groups will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:97
+msgid "Chat ID"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:162
+msgid "Close only if tickets are in the following tags"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:176
+msgid "Close tickets silently (no email or events will be fired)"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:269
+msgid "Connect to Dropbox"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:53
+msgid "Connect to Google Drive"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:175
+msgid "Content help message"
+msgstr ""
+
+#: app/Services/ProTicketService.php:152
+#, php-format
+msgid "Conversation #%s has been splited as a new ticket at #%s at %s"
+msgstr ""
+
+#: app/Services/Integrations/LearnDash.php:154
+#: app/Services/Integrations/LearnPress.php:28
+#: app/Services/Integrations/LifterLMS.php:148
+#: app/Services/Integrations/TutorLMS.php:144
+msgid "Course Name:"
+msgstr ""
+
+#: app/Services/Integrations/LearnDash.php:152
+#: app/Services/Integrations/LearnPress.php:26
+#: app/Services/Integrations/LifterLMS.php:146
+#: app/Services/Integrations/TutorLMS.php:142
+msgid "Course Name: "
+msgstr ""
+
+#: app/Services/ProHelper.php:40
+msgid "Create a New Ticket"
+msgstr ""
+
+#: app/Services/ProHelper.php:38
+msgid "Create Ticket"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:178
+msgid "Create ticket button text"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:179
+msgid "Create ticket page heading"
+msgstr ""
+
+#: app/Http/Controllers/CustomFieldsController.php:91
+msgid "Custom Data has been updated"
+msgstr ""
+
+#: app/Http/Controllers/CustomFieldsController.php:72
+msgid "Custom fields are successfully saved"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:194
+msgid ""
+"Custom Response Text that will be sent to customer when closing the ticket "
+"automatically"
+msgstr ""
+
+#: app/Services/Integrations/FluentEmailPiping/ByMailHandler.php:41
+msgid "Customer could not be created."
+msgstr ""
+
+#: app/Services/Integrations/FluentEmailPiping/ByMailHandler.php:47
+msgid "Customer is inactive, so no ticket can be created."
+msgstr ""
+
+#. Description of the plugin
+msgid "Customer Support and Ticketing System for WordPress"
+msgstr ""
+
+#: app/Http/Controllers/AutoCloseController.php:53
+msgid "Default fallback agent is required"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:98
+msgid "Default Group Chat ID"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:97
+#: app/Services/Integrations/Discord/DiscordNotification.php:98
+msgid "Discord Incoming Webhook URL"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:158
+msgid "Do not close if customer is waiting for response"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:168
+msgid "Do Not close if tickets are in the following tags"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:182
+msgid "Don't close bookmarked tickets"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:257
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:258
+msgid "Dropbox Client ID"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:264
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:265
+msgid "Dropbox Client Secret"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:125
+msgid "Dropbox settings has been disconnected"
+msgstr ""
+
+#: app/Services/Integrations/Edd.php:61
+msgid "EDD Orders"
+msgstr ""
+
+#: app/Services/Integrations/Edd.php:59
+msgid "EDD orders will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/Edd.php:53
+msgid "EDD Products"
+msgstr ""
+
+#: app/Services/Integrations/Edd.php:51
+msgid "EDD products will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/Edd.php:198
+msgid "EDD Purchases"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:116
+msgid "Enable Discord Notifications"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:130
+msgid "Enable Reply From Telegram (Agent can directly reply from telegram)"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:219
+msgid "Enable Reply From WhatsApp"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:186
+msgid "Enable Reply Ticket From Slack"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:172
+msgid "Enable Slack Notifications"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:123
+msgid "Enable Telegram Notifications"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:179
+msgid "Enable Ticket Assigned Notification"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:212
+msgid "Enable Twilio Integration"
+msgstr ""
+
+#: app/Services/Integrations/TutorLMS.php:145
+msgid "Enrolled"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:259
+msgid "Enter Dropbox Client ID Here"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:266
+msgid "Enter Dropbox Client Secret Here"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:43
+msgid "Enter Google App Client ID Here"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:50
+msgid "Enter Google App Client Secret Here"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:116
+msgid "Enter message to send now as test"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:99
+msgid "Enter your Discord Incoming Webhook URL Here"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:151
+msgid "Enter your Slack Bot User OAuth Token Here"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:99
+msgid ""
+"Enter your Telegram API channel user ID, You can also use message id. Please "
+"check documentation for more details."
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:92
+msgid "Enter your Telegram Bot Token"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:181
+msgid "Enter your Twilio Account SID Here"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:188
+msgid "Enter your Twilio Auth Token Here"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:195
+msgid "Enter your Twilio WhatsApp Number Here"
+msgstr ""
+
+#: fluent-support-pro.php:62
+msgid "Every Quarter Till Hour"
+msgstr ""
+
+#: fluent-support-pro.php:58
+msgid "Every Two Hours"
+msgstr ""
+
+#. Name of the plugin
+msgid "Fluent Support Pro"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:174
+msgid "Form content heading"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:41
+msgid "Google App Client ID"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:48
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:49
+msgid "Google App Client Secret"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:42
+msgid "Google App ID"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:104
+msgid "Google Drive connection has been disconnected"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:90
+msgid "Google Drive settings has been saved"
+msgstr ""
+
+#: app/Services/Integrations/LearnPress.php:29
+msgid "Graduation:"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://fluentsupport.com"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:150
+msgid "Inactive days for tickets that you want to close automatically"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:165
+msgid "Input Channel ID"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:158
+msgid "Input Channel Name"
+msgstr ""
+
+#: app/Services/Integrations/LearnDash.php:23
+#: app/Services/Integrations/LearnDash.php:163
+msgid "LearnDash Courses"
+msgstr ""
+
+#: app/Services/Integrations/LearnDash.php:21
+msgid "LearnDash Courses will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/LearnDash.php:31
+msgid "LearnDash User Courses"
+msgstr ""
+
+#: app/Services/Integrations/LearnDash.php:29
+msgid "LearnDash User Courses will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/LearnPress.php:41
+msgid "LearnPress"
+msgstr ""
+
+#: app/Services/Integrations/LearnPress.php:96
+msgid "LearnPress Courses"
+msgstr ""
+
+#: app/Services/Integrations/LearnPress.php:94
+msgid "LearnPress Courses will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/LearnPress.php:104
+msgid "LearnPress User Courses"
+msgstr ""
+
+#: app/Services/Integrations/LearnPress.php:102
+msgid "LearnPress User Courses will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/PMPro.php:134
+#: app/Services/Integrations/RCPro.php:142
+#: app/Services/Integrations/WishListMember.php:135
+msgid "Level:"
+msgstr ""
+
+#: app/Services/Integrations/LifterLMS.php:158
+msgid "Lifter LMS Courses"
+msgstr ""
+
+#: app/Services/Integrations/LifterLMS.php:44
+msgid "LifterLMS Courses"
+msgstr ""
+
+#: app/Services/Integrations/LifterLMS.php:42
+msgid "LifterLMS Courses will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/LifterLMS.php:52
+msgid "LifterLMS User Courses"
+msgstr ""
+
+#: app/Services/Integrations/LifterLMS.php:50
+msgid "LifterLMS User Courses will be shown at the ticket form"
+msgstr ""
+
+#: app/Hooks/actions.php:78
+msgid "Logout"
+msgstr ""
+
+#: app/Http/Controllers/IncomingWebhookController.php:102
+msgid "Mailbox updated successfully"
+msgstr ""
+
+#: app/Services/Integrations/BuddyBoss.php:153
+msgid "Member From:"
+msgstr ""
+
+#: app/Services/Integrations/PMPro.php:137
+msgid "Membership End:"
+msgstr ""
+
+#: app/Services/Integrations/PMPro.php:135
+msgid "Membership Start:"
+msgstr ""
+
+#: app/Services/Integrations/BuddyBoss.php:152
+msgid "Name:"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/DropboxHelper.php:54
+#: app/Services/FileUploadIntegration/GoogleDrive/GoogleDriveHelper.php:53
+msgid "No access token found"
+msgstr ""
+
+#: app/Http/Controllers/IncomingWebhookController.php:108
+msgid "No incoming webhook found"
+msgstr ""
+
+#: app/Http/Controllers/SavedRepliesController.php:70
+#: app/Http/Controllers/SavedRepliesController.php:84
+msgid "No reply template found with this id"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:103
+#: app/Services/Integrations/Telegram/TelegramNotification.php:103
+#: app/Services/Integrations/Twilio/TwilioNotification.php:199
+msgid "Notification Events"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:252
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:36
+#, php-format
+msgid "oAuth2 Redirect URL for Your APP: %s"
+msgstr ""
+
+#: app/Services/Integrations/Edd.php:106 app/Services/Integrations/Edd.php:116
+#: app/Services/Integrations/WooCommerce.php:102
+#: app/Services/Integrations/WooCommerce.php:113
+msgid "Order #%d"
+msgstr ""
+
+#: app/Services/Integrations/Edd.php:82 app/Services/Integrations/Edd.php:249
+#: app/Services/Integrations/WooCommerce.php:57
+#: app/Services/Integrations/WooCommerce.php:450
+#, php-format
+msgid "Order #%d - %s"
+msgstr ""
+
+#: app/Services/Integrations/PMPro.php:147
+msgid "Paid Membership Pro"
+msgstr ""
+
+#: app/Services/Integrations/PMPro.php:23
+msgid "Paid Membership Pro Levels"
+msgstr ""
+
+#: app/Services/Integrations/PMPro.php:31
+msgid "Paid Membership Pro User Levels"
+msgstr ""
+
+#: app/Services/Integrations/PMPro.php:21
+msgid "Paid Membership Pro's levels will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/PMPro.php:29
+msgid "Paid Membership Pro's User levels will be shown at the ticket form"
+msgstr ""
+
+#: app/Http/Controllers/EmailBoxController.php:108
+msgid "Please activate Fluent Support license"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:147
+msgid "Please authorize your Dropbox account"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:132
+msgid "Please authorize your Google Drive API"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:191
+#, php-format
+msgid ""
+"Please copy this URL %1s%2s%3s to verify your Event Subscriptions in Slack"
+msgstr ""
+
+#: app/Hooks/actions.php:63
+msgid "Please Login"
+msgstr ""
+
+#: app/Services/ProHelper.php:35
+msgid "Please provide details about your problem"
+msgstr ""
+
+#: app/Http/Controllers/AutoCloseController.php:46
+msgid "Please use different tags in include and exclude tags field"
+msgstr ""
+
+#: app/Services/ProHelper.php:37
+msgid "Priority"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:177
+msgid "Priority heading"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:176
+msgid "Product/Service heading"
+msgstr ""
+
+#: app/Services/Integrations/Edd.php:180
+msgid "Purchase Date: "
+msgstr ""
+
+#: app/Services/ProHelper.php:36
+msgid "Related Product/Service"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:107
+#: app/Services/Integrations/Telegram/TelegramNotification.php:107
+#: app/Services/Integrations/Twilio/TwilioNotification.php:203
+msgid "Replied By Customer"
+msgstr ""
+
+#: app/Http/Controllers/TwilioController.php:49
+msgid "Reply from WhatsApp is disabled"
+msgstr ""
+
+#: app/Http/Controllers/SavedRepliesController.php:61
+msgid "Reply Template has been updated"
+msgstr ""
+
+#: app/Http/Controllers/AutoCloseController.php:59
+msgid "Response body is required"
+msgstr ""
+
+#: app/Services/Integrations/RCPro.php:155
+msgid "Restrict Content Pro"
+msgstr ""
+
+#: app/Services/Integrations/RCPro.php:24
+msgid "Restrict Content Pro Levels"
+msgstr ""
+
+#: app/Services/Integrations/RCPro.php:32
+msgid "Restrict Content Pro User Levels"
+msgstr ""
+
+#: app/Services/Integrations/RCPro.php:30
+msgid "Restrict Content Pro User levels will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/RCPro.php:22
+msgid "Restrict Content Pro's levels will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:119
+msgid "Save Discord Settings"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:269
+#: app/Services/FileUploadIntegration/GoogleDrive/Bootstrap.php:53
+msgid "Save Settings"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:209
+msgid "Save Slack Settings"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:157
+msgid "Save Telegram Settings"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:246
+msgid "Save Twilio Settings"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:203
+msgid "Select default agent if the ticket has not assigned to any agent"
+msgstr ""
+
+#: app/Http/Controllers/SavedRepliesController.php:76
+msgid "Selected Reply Template has been deleted"
+msgstr ""
+
+#: app/Http/Controllers/WorkflowsController.php:211
+msgid "Selected workflow has been deleted"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:69
+msgid ""
+"Send notifications to Discord Channel and keep your support agents more "
+"active"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:109
+msgid ""
+"Send notifications to Slack Channel and keep your support agents more active"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:68
+msgid ""
+"Send notifications to your agents WhatsApp number using twilio and make them "
+"more active"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:24
+msgid ""
+"Send Telegram notifications to Group, Channel or individual person inbox and "
+"reply from Telegram inbox"
+msgstr ""
+
+#: app/Http/Controllers/TwilioController.php:32
+#: app/Http/Controllers/DiscordController.php:26
+msgid "Settings failed to save"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:49
+#: app/Http/Controllers/AutoCloseController.php:67
+#: app/Http/Controllers/TwilioController.php:39
+#: app/Http/Controllers/DiscordController.php:33
+msgid "Settings has been updated"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:149
+#: app/Services/Integrations/Slack/SlackNotification.php:150
+msgid "Slack Bot User OAuth Token"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:163
+#: app/Services/Integrations/Slack/SlackNotification.php:164
+msgid "Slack Channel ID"
+msgstr ""
+
+#: app/Services/Integrations/Slack/SlackNotification.php:156
+#: app/Services/Integrations/Slack/SlackNotification.php:157
+msgid "Slack Channel Name"
+msgstr ""
+
+#: app/Services/Integrations/OpenAI/OpenAIAPI.php:63
+msgid "Something went wrong."
+msgstr ""
+
+#: app/Services/Integrations/FluentEmailPiping/ByMailHandler.php:192
+msgid "Sorry, you cannot create a response."
+msgstr ""
+
+#: app/Services/Integrations/FluentEmailPiping/ByMailHandler.php:126
+msgid "Sorry, you cannot create a ticket."
+msgstr ""
+
+#: app/Hooks/actions.php:71
+msgid "Sorry, You do not have permission to view this page"
+msgstr ""
+
+#: app/Services/Integrations/LearnPress.php:31
+msgid "Started At:"
+msgstr ""
+
+#: app/Services/Integrations/RCPro.php:143
+#: app/Services/Integrations/LearnDash.php:155
+#: app/Services/Integrations/LearnPress.php:30
+#: app/Services/Integrations/LifterLMS.php:149
+#: app/Services/Integrations/WishListMember.php:136
+#: app/Services/Integrations/TutorLMS.php:145
+msgid "Status:"
+msgstr ""
+
+#: app/Services/ProHelper.php:33
+msgid "Subject"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:173
+msgid "Subject heading"
+msgstr ""
+
+#: app/Services/ProHelper.php:39
+msgid "Submit a Support Ticket"
+msgstr ""
+
+#: app/Services/Integrations/WooCommerce.php:151
+msgid "Support"
+msgstr ""
+
+#: app/Http/Controllers/TicketTagsController.php:112
+msgid "Tag has been deleted"
+msgstr ""
+
+#: app/Http/Controllers/TicketTagsController.php:70
+msgid "Tag has been successfully created"
+msgstr ""
+
+#: app/Http/Controllers/TicketTagsController.php:95
+msgid "Tag has been updated"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:115
+msgid "Test Message (Optional)"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:112
+msgid "Test Message to send right now"
+msgstr ""
+
+#: app/Services/PluginManager/LicenseManager.php:78
+#, php-format
+msgid "The %s license needs to be activated. %sActivate Now%s"
+msgstr ""
+
+#: app/Services/ProTicketService.php:19
+#, php-format
+msgid "Ticket #%s has been merged with this ticket at %s"
+msgstr ""
+
+#: app/Services/ProTicketService.php:143
+#, php-format
+msgid "Ticket #%s has been splited from #%s at %s"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:108
+#: app/Services/Integrations/Twilio/TwilioNotification.php:204
+msgid "Ticket Assigned To Agent"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:106
+#: app/Services/Integrations/Telegram/TelegramNotification.php:106
+#: app/Services/Integrations/Twilio/TwilioNotification.php:202
+msgid "Ticket Closed"
+msgstr ""
+
+#: app/Http/Controllers/TicketFormController.php:180
+msgid "Ticket Create Call to Action"
+msgstr ""
+
+#: app/Services/Integrations/Discord/DiscordNotification.php:105
+#: app/Services/Integrations/Telegram/TelegramNotification.php:105
+#: app/Services/Integrations/Twilio/TwilioNotification.php:201
+msgid "Ticket Created"
+msgstr ""
+
+#: app/Services/ProHelper.php:34
+msgid "Ticket Details"
+msgstr ""
+
+#: app/Services/AutoCloseService.php:103
+msgid "Ticket has been closed automatically by the system due to inactivity"
+msgstr ""
+
+#: app/Services/ProTicketService.php:131
+msgid "Ticket has been split to new ticket"
+msgstr ""
+
+#: app/Services/ProTicketService.php:41
+msgid "Tickets has been merged"
+msgstr ""
+
+#: app/Services/Integrations/TutorLMS.php:23
+#: app/Services/Integrations/TutorLMS.php:154
+msgid "Tutor LMS Courses"
+msgstr ""
+
+#: app/Services/Integrations/TutorLMS.php:21
+msgid "Tutor LMS Courses will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/TutorLMS.php:31
+msgid "Tutor LMS User Courses"
+msgstr ""
+
+#: app/Services/Integrations/TutorLMS.php:29
+msgid "Tutor LMS User Courses will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:179
+#: app/Services/Integrations/Twilio/TwilioNotification.php:180
+msgid "Twilio Account SID"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:186
+#: app/Services/Integrations/Twilio/TwilioNotification.php:187
+msgid "Twilio Auth Token"
+msgstr ""
+
+#: app/Services/Integrations/Twilio/TwilioNotification.php:193
+#: app/Services/Integrations/Twilio/TwilioNotification.php:194
+msgid "Twilio WhatsApp Number"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:227
+msgid "Unable to upload file in Dropbox"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/Dropbox/Bootstrap.php:218
+#, php-format
+msgid "Unable to upload file in Dropbox %s"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/GoogleDriveApi.php:141
+msgid "Unable to upload file in google drive"
+msgstr ""
+
+#: app/Services/FileUploadIntegration/GoogleDrive/GoogleDriveApi.php:132
+#, php-format
+msgid "Unable to upload file in Google Drive %s"
+msgstr ""
+
+#: app/Http/Controllers/TicketController.php:75
+msgid "Watchers has been added to this ticket"
+msgstr ""
+
+#: app/Services/ProTicketService.php:106
+msgid "Watchers has been updated"
+msgstr ""
+
+#: app/Http/Controllers/TicketController.php:68
+msgid "Watchers is required"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:149
+msgid "Webhook is currently activated"
+msgstr ""
+
+#: app/Http/Controllers/IncomingWebhookController.php:82
+msgid "Webhook updated successfully"
+msgstr ""
+
+#: app/Services/Integrations/WishListMember.php:145
+msgid "WishList Member"
+msgstr ""
+
+#: app/Services/Integrations/WishListMember.php:24
+msgid "WishListMember Levels"
+msgstr ""
+
+#: app/Services/Integrations/WishListMember.php:22
+msgid "WishListMember levels will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/WishListMember.php:32
+msgid "WishListMember User Levels"
+msgstr ""
+
+#: app/Services/Integrations/WishListMember.php:30
+msgid "WishListMember user levels will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/WooCommerce.php:32
+msgid "WooCommerce Orders"
+msgstr ""
+
+#: app/Services/Integrations/WooCommerce.php:30
+msgid "WooCommerce orders will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/WooCommerce.php:24
+msgid "WooCommerce Products"
+msgstr ""
+
+#: app/Services/Integrations/WooCommerce.php:22
+msgid "WooCommerce products will be shown at the ticket form"
+msgstr ""
+
+#: app/Services/Integrations/WooCommerce.php:286
+#: app/Services/Integrations/WooCommerce.php:375
+msgid "WooCommerce Purchases"
+msgstr ""
+
+#: app/Http/Controllers/WorkflowsController.php:53
+msgid "Workflow has been created"
+msgstr ""
+
+#: app/Http/Controllers/WorkflowsController.php:117
+msgid "Workflow has been updated"
+msgstr ""
+
+#: app/Http/Controllers/WorkflowsController.php:105
+msgid "Workflow title needs to be unique"
+msgstr ""
+
+#. Author of the plugin
+msgid "WPManageNinja LLC"
+msgstr ""
+
+#: app/Http/Controllers/TicketController.php:43
+msgid "You do not have permission to merge tickets"
+msgstr ""
+
+#: app/Http/Controllers/LicenseController.php:58
+msgid "Your license key has been successfully deactivated"
+msgstr ""
+
+#: app/Http/Controllers/LicenseController.php:41
+msgid "Your license key has been successfully updated"
+msgstr ""
+
+#: app/Services/Integrations/Telegram/TelegramNotification.php:140
+msgid ""
+"Your support agents can easily reply from telegram by replying to telegram. "
+"</br>Please make sure support agent has telegram id set to the profile. <a "
+"href=\"https://fluentsupport.com/docs/managing-tickets-using-telegram\" "
+"target=\"_blank\">Learn More about this feature</a>"
+msgstr ""
