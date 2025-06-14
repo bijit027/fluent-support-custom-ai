@@ -55,7 +55,6 @@ class CustomAIService
 
     public function generateResponse(string $responseContent, $ticket)
     {
-        dd('jhere');
         return (new CustomAIHelper())->generateResponse($responseContent, $ticket);
     }
 
