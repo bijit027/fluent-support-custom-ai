@@ -3,7 +3,7 @@
  * Plugin Name:  Fluent Support Custom AI
  * Plugin URI:   https://fluentsupport.com
  * Description:  Customer Support and Ticketing System for WordPress
- * Version:      1.8.9
+ * Version:      1.0.0
  * Author:       WPManageNinja LLC
  * Author URI:   https://fluentsupport.com
  * License:      GPL2
