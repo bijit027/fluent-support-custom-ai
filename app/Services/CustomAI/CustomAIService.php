@@ -11,6 +11,11 @@ class CustomAIService
         return (new CustomAIHelper())->getPresetPrompts($type);
     }
 
+    public function modifyResponse(string $prompt, $selectedText, $ticketId)
+    {
+        return (new CustomAIHelper())->modifyResponse($prompt, $selectedText, $ticketId);
+    }
+
     public function generateResponse(string $responseContent, $ticket)
     {
         return (new CustomAIHelper())->generateResponse($responseContent, $ticket);

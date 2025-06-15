@@ -12,25 +12,48 @@ class CustomAIHelper
     public function generateResponse($prompt, $ticket)
     {
         $filteredPrompt = apply_filters('fluent_support/generate_response', $prompt, $ticket);
-
         $ticketData = $this->preProcessTicket($filteredPrompt, $ticket);
 
-        return $this->makeRequest($ticketData, $filteredPrompt, $ticket->id);
+        return $this->makeRequest($ticketData, $filteredPrompt, $ticket->id, 'ticket_reply');
     }
 
-    private function makeRequest(array $ticketData, string $prompt, int $ticketId)
+    public function modifyResponse($prompt, $selectedText, $ticketId)
     {
-        $credentials = $this->getAICredentials();
+        $filteredPrompt = apply_filters('fluent_support/modify_selected_text', $prompt);
+        $query = 'Instruction: ' . $filteredPrompt . ' Now apply this to the selected text: "' . $selectedText . '".';
 
-        $payload = array_merge($ticketData, [
-            'botId'            => $credentials['bot_id'],
-            'additionalPrompt' => $prompt,
-        ]);
+        return $this->makeRequest([], $query, $ticketId);
+    }
 
-        $chatAPI = new CustomAIAPI($credentials['api_key'], $credentials['api_url']);
+    private function makeRequest(array $ticketData, string $prompt, int $ticketId, string $type = 'default')
+    {
+        $config = $this->getAIClientConfig($type);
+
+        $payload = $this->buildPayload($type, $ticketData, $prompt, $config['bot_id']);
+
+        $chatAPI = new CustomAIAPI($config['api_key'], $config['api_url']);
 
         return $chatAPI->makeRequest($ticketId, $payload);
     }
+
+    private function buildPayload(string $type, array $ticketData = [], string $prompt, string $botId): array
+    {
+        $mappings = [
+            'default' => [
+                'botId'   => $botId,
+                'message' => $prompt,
+            ],
+            'ticket_reply' => [
+                'botId'            => $botId,
+                'additionalPrompt' => $prompt,
+            ],
+        ];
+
+        $extraPayload = $mappings[$type] ?? $mappings['default'];
+
+        return array_merge($ticketData ?: [], $extraPayload);
+    }
+
 
     private function preProcessTicket($prompt, $ticket)
     {
@@ -78,13 +101,21 @@ class CustomAIHelper
         return $messages;
     }
 
-    private function getAICredentials()
+    private function getAIClientConfig(string $purpose = 'default'): array
     {
-        return [
+        $config = [
             'api_key' => 'fak_PP8OzI9ciOeHEmznE7AqRyBMUZLNdQ8d',
             'bot_id'  => 'a9b9706b-9124-4a84-b234-3daa572dd04c',
-            'api_url' => 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot/chat-completion',
+
+            'endpoints' => [
+                'default'         => 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot/responses',
+                'ticket_reply'    => 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot/chat-completion',
+            ]
         ];
+
+        $config['api_url'] = $config['endpoints'][$purpose];
+
+        return $config;
     }
 
     /**

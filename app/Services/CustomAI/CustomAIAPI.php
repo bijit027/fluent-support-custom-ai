@@ -40,7 +40,7 @@ class CustomAIAPI
             return new WP_Error(423, __($error, 'fluent-support-custom-ai'));
         }
 
-        $content = $responseBody['content'] ?? null;
+        $content = $responseBody['content'] ?? $responseBody['response'] ?? '';
 
         if (empty($content)) {
             return new WP_Error('customAI_error', __('No AI response found in the API response.', 'fluent-support-custom-ai'));
