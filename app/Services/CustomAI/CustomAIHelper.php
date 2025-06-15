@@ -25,6 +25,21 @@ class CustomAIHelper
         return $this->makeRequest([], $query, $ticketId);
     }
 
+    public function generateTicketSummary($ticket)
+    {
+        $instruction = 'Provide a summary of the ticket from the customer\'s perspective. Each step should start with "-". Break it down into concise steps, with a maximum of 6 steps. Each step should be within 6 words per line. Use full stops for separation.';
+        $instruction = apply_filters('fluent_support/generate_ticket_summary', $instruction);
+        $ticketData = $this->preProcessTicket($instruction, $ticket);
+
+        $query = sprintf(
+            'Instruction: %s Ticket Data: "%s".',
+            $instruction,
+            json_encode($ticketData)
+        );
+
+        return $this->makeRequest([], $query, $ticket->id);
+    }
+
     private function makeRequest(array $ticketData, string $prompt, int $ticketId, string $type = 'default')
     {
         $config = $this->getAIClientConfig($type);
