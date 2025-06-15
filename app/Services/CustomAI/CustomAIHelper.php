@@ -27,13 +27,28 @@ class CustomAIHelper
 
     public function generateTicketSummary($ticket)
     {
-        $instruction = 'Provide a summary of the ticket from the customer\'s perspective. Each step should start with "-". Break it down into concise steps, with a maximum of 6 steps. Each step should be within 6 words per line. Use full stops for separation.';
-        $instruction = apply_filters('fluent_support/generate_ticket_summary', $instruction);
-        $ticketData = $this->preProcessTicket($instruction, $ticket);
+        $prompt = 'Provide a summary of the ticket from the customer\'s perspective. Each step should start with "-". Break it down into concise steps, with a maximum of 6 steps. Each step should be within 6 words per line. Use full stops for separation.';
+        $prompt = apply_filters('fluent_support/generate_ticket_summary', $prompt);
+        $ticketData = $this->preProcessTicket($prompt, $ticket);
 
         $query = sprintf(
             'Instruction: %s Ticket Data: "%s".',
-            $instruction,
+            $prompt,
+            json_encode($ticketData)
+        );
+
+        return $this->makeRequest([], $query, $ticket->id);
+    }
+
+    public function generateTicketTone($ticket)
+    {
+        $prompt = 'What is the tone of this ticket? Is it positive, negative, or neutral? Provide a response with a single word.';
+        $prompt = apply_filters('fluent_support/find_customer_sentiment', $prompt);
+        $ticketData = $this->preProcessTicket($prompt, $ticket);
+
+        $query = sprintf(
+            'Instruction: %s Ticket Data: "%s".',
+            $prompt,
             json_encode($ticketData)
         );
 

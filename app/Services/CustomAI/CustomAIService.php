@@ -21,6 +21,11 @@ class CustomAIService
         return (new CustomAIHelper())->generateTicketSummary($ticket);
     }
 
+    public function getTicketTone($ticket)
+    {
+        return (new CustomAIHelper())->generateTicketTone($ticket);
+    }
+
     public function generateResponse(string $responseContent, $ticket)
     {
         return (new CustomAIHelper())->generateResponse($responseContent, $ticket);
