@@ -9,171 +9,122 @@ use FluentSupport\Framework\Support\Arr;
 
 class CustomAIHelper
 {
+    const BASE_URL = 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot';
+
+    const ENDPOINTS = [
+        'default' => '/responses',
+        'ticket_reply' => '/chat-completion',
+    ];
+
     public function generateResponse($prompt, $ticket)
     {
-        $filteredPrompt = apply_filters('fluent_support/generate_response', $prompt, $ticket);
-        $ticketData = $this->preProcessTicket($filteredPrompt, $ticket);
-
-        return $this->makeRequest($ticketData, $filteredPrompt, $ticket->id, 'ticket_reply');
+        $prompt = apply_filters('fluent_support/generate_response', $prompt, $ticket);
+        $ticketData = $this->prepareTicketData($ticket);
+        return $this->callAPI($ticketData, $prompt, $ticket->id, 'ticket_reply');
     }
 
     public function modifyResponse($prompt, $selectedText, $ticketId)
     {
-        $filteredPrompt = apply_filters('fluent_support/modify_selected_text', $prompt);
-        $query = 'Instruction: ' . $filteredPrompt . ' Now apply this to the selected text: "' . $selectedText . '".';
+        $prompt = apply_filters('fluent_support/modify_selected_text', $prompt);
+        $query = "Instruction: {$prompt} Now apply this to the selected text: \"{$selectedText}\".";
 
-        return $this->makeRequest([], $query, $ticketId);
+        return $this->callAPI([], $query, $ticketId);
     }
 
     public function generateTicketSummary($ticket)
     {
         $prompt = 'Provide a summary of the ticket from the customer\'s perspective. Each step should start with "-". Break it down into concise steps, with a maximum of 6 steps. Each step should be within 6 words per line. Use full stops for separation.';
         $prompt = apply_filters('fluent_support/generate_ticket_summary', $prompt);
-        $ticketData = $this->preProcessTicket($prompt, $ticket);
+        $ticketData = $this->prepareTicketData($ticket);
 
-        $query = sprintf(
-            'Instruction: %s Ticket Data: "%s".',
-            $prompt,
-            json_encode($ticketData)
-        );
+        $query = "Instruction: {$prompt} Ticket Data: \"" . json_encode(Arr::get($ticketData, 'messages', [])) . "\".";
 
-        return $this->makeRequest([], $query, $ticket->id);
+        return $this->callAPI([], $query, $ticket->id);
     }
 
     public function generateTicketTone($ticket)
     {
         $prompt = 'What is the tone of this ticket? Is it positive, negative, or neutral? Provide a response with a single word.';
         $prompt = apply_filters('fluent_support/find_customer_sentiment', $prompt);
-        $ticketData = $this->preProcessTicket($prompt, $ticket);
+        $ticketData = $this->prepareTicketData($ticket);
 
-        $query = sprintf(
-            'Instruction: %s Ticket Data: "%s".',
-            $prompt,
-            json_encode($ticketData)
-        );
+        $query = "Instruction: {$prompt} Ticket Data: \"" . json_encode(Arr::get($ticketData, 'messages', [])) . "\".";
 
-        return $this->makeRequest([], $query, $ticket->id);
+        return $this->callAPI([], $query, $ticket->id);
     }
 
-    private function makeRequest(array $ticketData, string $prompt, int $ticketId, string $type = 'default')
+    public function getPresetPrompts(string $type): array
     {
-        $config = $this->getAIClientConfig($type);
+        $presets = [
+            'modifyResponse' => [$this, 'getModifyResponsePresets'],
+            'createResponse' => [$this, 'getCreateResponsePresets'],
+        ];
 
+        return isset($presets[$type]) ? call_user_func($presets[$type]) : [];
+    }
+
+    private function callAPI(array $ticketData, string $prompt, int $ticketId, string $type = 'default')
+    {
+        $config = $this->getAPIConfig($type);
+        $apiUrl = self::BASE_URL . self::ENDPOINTS[$type];
         $payload = $this->buildPayload($type, $ticketData, $prompt, $config['bot_id']);
 
-        $chatAPI = new CustomAIAPI($config['api_key'], $config['api_url']);
-
-        return $chatAPI->makeRequest($ticketId, $payload);
+        $api = new CustomAIAPI($config['api_key'], $apiUrl);
+        return $api->makeRequest($ticketId, $payload);
     }
 
-    private function buildPayload(string $type, array $ticketData = [], string $prompt, string $botId): array
+    private function buildPayload(string $type, array $ticketData, string $prompt, string $botId): array
     {
-        $mappings = [
+        $promptKey = $type === 'ticket_reply' ? 'additionalPrompt' : 'message';
+
+        // Use Arr::only to get 'botId' from a temporary array for consistency
+        return array_merge($ticketData, ['botId' => $botId, $promptKey => $prompt]);
+    }
+
+    private function getAPIConfig(string $type = 'default'): array
+    {
+        $configurations = [
             'default' => [
-                'botId'   => $botId,
-                'message' => $prompt,
-            ],
-            'ticket_reply' => [
-                'botId'            => $botId,
-                'additionalPrompt' => $prompt,
+                'api_key' => 'fak_PP8OzI9ciOeHEmznE7AqRyBMUZLNdQ8d',
+                'bot_id' => 'a9b9706b-9124-4a84-b234-3daa572dd04c',
             ],
         ];
 
-        $extraPayload = $mappings[$type] ?? $mappings['default'];
-
-        return array_merge($ticketData ?: [], $extraPayload);
+        return Arr::get($configurations, $type, $configurations['default']);
     }
 
-
-    private function preProcessTicket($prompt, $ticket)
+    private function prepareTicketData($ticket): array
     {
         $ticketArray = $ticket->toArray();
-        $formattedMessages = $this->formatTicket($ticketArray);
-
-        return ['messages' => $formattedMessages];
+        return $this->formatTicketData($ticketArray);
     }
 
-    private function formatTicket($ticketArray): array
+    private function formatTicketData($ticket): array
     {
         $messages = [];
 
-        $conversation = [];
-
-        $conversation[] = [
-            'created_at' => $ticketArray['created_at'] ?? now(),
-            'role'       => 'human',
-            'content'    => wp_strip_all_tags($ticketArray['content'] ?? ''),
-        ];
-
-        if (!empty($ticketArray['responses']) && is_array($ticketArray['responses'])) {
-            foreach ($ticketArray['responses'] as $response) {
-                $personType = $response['person']['person_type'] ?? 'customer';
-
-                $conversation[] = [
-                    'created_at' => $response['created_at'] ?? now(),
-                    'role'       => $personType === 'agent' ? 'ai' : 'human',
-                    'content'    => wp_strip_all_tags($response['content'] ?? ''),
-                ];
-            }
-        }
-
-        usort($conversation, function ($a, $b) {
-            return strtotime($a['created_at']) <=> strtotime($b['created_at']);
-        });
-
-        $messages = array_map(function ($entry) {
-            return [
-                'role'    => $entry['role'],
-                'content' => $entry['content'],
+        // Additional ticket content as the first human message
+        if (!empty(Arr::get($ticket, 'content'))) {
+            $messages[] = [
+                'role' => 'human',
+                'content' => Arr::get($ticket, 'content'),
             ];
-        }, $conversation);
-
-        return $messages;
-    }
-
-    private function getAIClientConfig(string $purpose = 'default'): array
-    {
-        $config = [
-            'api_key' => 'fak_PP8OzI9ciOeHEmznE7AqRyBMUZLNdQ8d',
-            'bot_id'  => 'a9b9706b-9124-4a84-b234-3daa572dd04c',
-
-            'endpoints' => [
-                'default'         => 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot/responses',
-                'ticket_reply'    => 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot/chat-completion',
-            ]
-        ];
-
-        $config['api_url'] = $config['endpoints'][$purpose];
-
-        return $config;
-    }
-
-    /**
-     * Get preset prompts based on the type.
-     *
-     * @param string $type The type of prompts to retrieve.
-     * @return array An array of preset prompts.
-     */
-    public function getPresetPrompts(string $type): array
-    {
-        switch ($type) {
-            case 'modifyResponse':
-                return $this->getModifyResponsePresets();
-            case 'createResponse':
-                return $this->getCreateResponsePresets();
-            default:
-                return [];
         }
+
+        // Added replies
+        foreach (Arr::get($ticket, 'responses', []) as $response) {
+            $messages[] = [
+                'role' => Arr::get($response, 'person.person_type') === 'customer' ? 'human' : 'ai',
+                'content' => Arr::get($response, 'content', ''),
+            ];
+        }
+
+        return ['messages' => $messages];
     }
 
-    /**
-     * Get preset prompts for modifying responses.
-     *
-     * @return array An array of modify response preset prompts.
-     */
     private function getModifyResponsePresets(): array
     {
-        $presetPrompts = [
+        $presets = [
             [
                 'label' => 'Improve Writing',
                 'text' => 'shorten',
@@ -201,17 +152,12 @@ class CustomAIHelper
             ]
         ];
 
-        return apply_filters('fluent_support/get_modify_response_preset_prompts', $presetPrompts);
+        return apply_filters('fluent_support/get_modify_response_preset_prompts', $presets);
     }
 
-    /**
-     * Get preset prompts for creating responses.
-     *
-     * @return array An array of create response preset prompts.
-     */
     private function getCreateResponsePresets(): array
     {
-        $presetPrompts = [
+        $presets = [
             [
                 'label' => 'Request More Information',
                 'text' => 'requestInfo',
@@ -220,7 +166,7 @@ class CustomAIHelper
             [
                 'label' => 'Acknowledge Issue',
                 'text' => 'acknowledgeIssue',
-                'description' => 'Confirm receipt of the customer’s issue and reassure them that it is being investigated. This demonstrates that their concern is being taken seriously.'
+                'description' => 'Confirm receipt of the customer\'s issue and reassure them that it is being investigated. This demonstrates that their concern is being taken seriously.'
             ],
             [
                 'label' => 'Provide Solution',
@@ -239,7 +185,6 @@ class CustomAIHelper
             ]
         ];
 
-        return apply_filters('fluent_support/get_create_response_preset_prompts', $presetPrompts);
+        return apply_filters('fluent_support/get_create_response_preset_prompts', $presets);
     }
-
 }
