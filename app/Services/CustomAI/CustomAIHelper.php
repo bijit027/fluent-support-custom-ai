@@ -3,123 +3,155 @@
 namespace FluentSupportCustomAI\App\Services\CustomAI;
 
 use FluentSupportCustomAI\App\Services\CustomAI\CustomAIAPI;
-use FluentSupport\App\Models\Meta;
-use FluentSupport\App\Models\AIActivityLogs;
 use FluentSupport\Framework\Support\Arr;
 
 class CustomAIHelper
 {
     const BASE_URL = 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot';
+    const API_KEY = '';
+    const BOT_ID = '';
 
+    // Endpoint mappings
     const ENDPOINTS = [
         'default' => '/responses',
-        'ticket_reply' => '/chat-completion',
+        'ticket_reply' => '/fs-chat-completion',
     ];
 
-    public function generateResponse($prompt, $ticket)
+    public function generateResponse($prompt,$ticket, $previousAIResponse = '')
     {
         $prompt = apply_filters('fluent_support/generate_response', $prompt, $ticket);
-        $ticketData = $this->prepareTicketData($ticket);
-        return $this->callAPI($ticketData, $prompt, $ticket->id, 'ticket_reply');
+        $payload = [
+            'ticket_conversation' => $this->getTicketMessages($ticket),
+            'messages' => $this->buildMessages($previousAIResponse, $prompt),
+            'botId' => self::BOT_ID
+        ];
+
+        return $this->makeAPICall($payload, $prompt, $ticket->id, 'ticket_reply');
     }
 
     public function modifyResponse($prompt, $selectedText, $ticketId)
     {
         $prompt = apply_filters('fluent_support/modify_selected_text', $prompt);
-        $query = "Instruction: {$prompt} Now apply this to the selected text: \"{$selectedText}\".";
+        $payload = [
+            'message' => "Instruction: {$prompt} Now apply this to the given text: {$selectedText}",
+            'botId' => self::BOT_ID
+        ];
 
-        return $this->callAPI([], $query, $ticketId);
+        return $this->makeAPICall($payload, $prompt, $ticketId);
     }
 
     public function generateTicketSummary($ticket)
     {
         $prompt = 'Provide a summary of the ticket from the customer\'s perspective. Each step should start with "-". Break it down into concise steps, with a maximum of 6 steps. Each step should be within 6 words per line. Use full stops for separation.';
         $prompt = apply_filters('fluent_support/generate_ticket_summary', $prompt);
-        $ticketData = $this->prepareTicketData($ticket);
 
-        $query = "Instruction: {$prompt} Ticket Data: \"" . json_encode(Arr::get($ticketData, 'messages', [])) . "\".";
+        $messages = $this->getSimpleTicketMessages($ticket);
+        $payload = [
+            'message' => "Instruction: {$prompt} Ticket Data: " . json_encode($messages),
+            'botId' => self::BOT_ID
+        ];
 
-        return $this->callAPI([], $query, $ticket->id);
+        return $this->makeAPICall($payload, $prompt, $ticket->id);
     }
 
     public function generateTicketTone($ticket)
     {
         $prompt = 'What is the tone of this ticket? Is it positive, negative, or neutral? Provide a response with a single word.';
         $prompt = apply_filters('fluent_support/find_customer_sentiment', $prompt);
-        $ticketData = $this->prepareTicketData($ticket);
 
-        $query = "Instruction: {$prompt} Ticket Data: \"" . json_encode(Arr::get($ticketData, 'messages', [])) . "\".";
+        $messages = $this->getSimpleTicketMessages($ticket);
+        $payload = [
+            'message' =>  "Instruction: {$prompt} Ticket Data: " . json_encode($messages),
+            'botId' => self::BOT_ID
+        ];
 
-        return $this->callAPI([], $query, $ticket->id);
+        return $this->makeAPICall($payload, $prompt, $ticket->id);
     }
 
     public function getPresetPrompts(string $type): array
     {
-        $presets = [
-            'modifyResponse' => [$this, 'getModifyResponsePresets'],
-            'createResponse' => [$this, 'getCreateResponsePresets'],
-        ];
+        if ($type === 'modifyResponse') {
+            return $this->getModifyResponsePresets();
+        }
 
-        return isset($presets[$type]) ? call_user_func($presets[$type]) : [];
+        if ($type === 'createResponse') {
+            return $this->getCreateResponsePresets();
+        }
+
+        return [];
     }
 
-    private function callAPI(array $ticketData, string $prompt, int $ticketId, string $type = 'default')
+    private function makeAPICall(array $payload, string $prompt, int $ticketId, string $type = 'default')
     {
-        $config = $this->getAPIConfig($type);
         $apiUrl = self::BASE_URL . self::ENDPOINTS[$type];
-        $payload = $this->buildPayload($type, $ticketData, $prompt, $config['bot_id']);
-
-        $api = new CustomAIAPI($config['api_key'], $apiUrl);
-        return $api->makeRequest($ticketId, $payload);
+        $api = new CustomAIAPI(self::API_KEY, $apiUrl);
+        return $api->makeRequest($ticketId, $payload, $prompt);
     }
 
-    private function buildPayload(string $type, array $ticketData, string $prompt, string $botId): array
+    private function getTicketMessages($ticket): array
     {
-        $promptKey = $type === 'ticket_reply' ? 'additionalPrompt' : 'message';
-
-        // Use Arr::only to get 'botId' from a temporary array for consistency
-        return array_merge($ticketData, ['botId' => $botId, $promptKey => $prompt]);
-    }
-
-    private function getAPIConfig(string $type = 'default'): array
-    {
-        $configurations = [
-            'default' => [
-                'api_key' => 'fak_PP8OzI9ciOeHEmznE7AqRyBMUZLNdQ8d',
-                'bot_id' => 'a9b9706b-9124-4a84-b234-3daa572dd04c',
-            ],
-        ];
-
-        return Arr::get($configurations, $type, $configurations['default']);
-    }
-
-    private function prepareTicketData($ticket): array
-    {
+        $messages = [];
         $ticketArray = $ticket->toArray();
-        return $this->formatTicketData($ticketArray);
+
+        if (!empty($ticketArray['content'])) {
+            $messages[] = [
+                'role' => 'Customer',
+                'message' => $this->cleanText($ticketArray['content']),
+            ];
+        }
+
+        foreach (Arr::get($ticketArray, 'responses', []) as $response) {
+            $role = Arr::get($response, 'person.person_type') === 'customer' ? 'Customer' : 'Support Agent';
+            $messages[] = [
+                'role' => $role,
+                'message' => $this->cleanText(Arr::get($response, 'content', '')),
+            ];
+        }
+
+        return $messages;
     }
 
-    private function formatTicketData($ticket): array
+    private function getSimpleTicketMessages($ticket): array
+    {
+        $messages = [];
+        $ticketArray = $ticket->toArray();
+
+        if (!empty($ticketArray['content'])) {
+            $messages[] = [
+                'role' => 'human',
+                'message' => $this->cleanText($ticketArray['content']),
+            ];
+        }
+
+        foreach (Arr::get($ticketArray, 'responses', []) as $response) {
+            $role = Arr::get($response, 'person.person_type') === 'customer' ? 'human' : 'ai';
+            $messages[] = [
+                'role' => $role,
+                'message' => $this->cleanText(Arr::get($response, 'content', '')),
+            ];
+        }
+
+        return $messages;
+    }
+
+    private function buildMessages(string $previousAIResponse = '', string $prompt = ''): array
     {
         $messages = [];
 
-        // Additional ticket content as the first human message
-        if (!empty(Arr::get($ticket, 'content'))) {
-            $messages[] = [
-                'role' => 'human',
-                'content' => Arr::get($ticket, 'content'),
-            ];
+        if ($previousAIResponse) {
+            $messages[] = ['role' => 'ai', 'message' => $previousAIResponse];
         }
 
-        // Added replies
-        foreach (Arr::get($ticket, 'responses', []) as $response) {
-            $messages[] = [
-                'role' => Arr::get($response, 'person.person_type') === 'customer' ? 'human' : 'ai',
-                'content' => Arr::get($response, 'content', ''),
-            ];
+        if ($prompt) {
+            $messages[] = ['role' => 'human', 'message' => $prompt];
         }
 
-        return ['messages' => $messages];
+        return $messages;
+    }
+
+    private function cleanText(string $text): string
+    {
+        return trim(strip_tags($text));
     }
 
     private function getModifyResponsePresets(): array

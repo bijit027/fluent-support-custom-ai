@@ -16,6 +16,11 @@ class CustomAIService
         return (new CustomAIHelper())->modifyResponse($prompt, $selectedText, $ticketId);
     }
 
+    public function generateResponse(string $responseContent, $ticket, $previousAIResponse = '')
+    {
+        return (new CustomAIHelper())->generateResponse($responseContent, $ticket, $previousAIResponse);
+    }
+
     public function getTicketSummary($ticket)
     {
         return (new CustomAIHelper())->generateTicketSummary($ticket);
@@ -24,11 +29,6 @@ class CustomAIService
     public function getTicketTone($ticket)
     {
         return (new CustomAIHelper())->generateTicketTone($ticket);
-    }
-
-    public function generateResponse(string $responseContent, $ticket)
-    {
-        return (new CustomAIHelper())->generateResponse($responseContent, $ticket);
     }
 
 }
