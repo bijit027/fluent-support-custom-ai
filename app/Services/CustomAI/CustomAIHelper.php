@@ -8,8 +8,8 @@ use FluentSupport\Framework\Support\Arr;
 class CustomAIHelper
 {
     const BASE_URL = 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot';
-    const API_KEY = '';
-    const BOT_ID = '';
+    const API_KEY = 'fak_PP8OzI9ciOeHEmznE7AqRyBMUZLNdQ8d';
+    const BOT_ID = 'a9b9706b-9124-4a84-b234-3daa572dd04c';
 
     // Endpoint mappings
     const ENDPOINTS = [
@@ -23,7 +23,6 @@ class CustomAIHelper
         $payload = [
             'ticket_conversation' => $this->getTicketMessages($ticket),
             'messages' => $this->buildMessages($previousAIResponse, $prompt),
-            'botId' => self::BOT_ID
         ];
 
         return $this->makeAPICall($payload, $prompt, $ticket->id, 'ticket_reply');
@@ -34,7 +33,6 @@ class CustomAIHelper
         $prompt = apply_filters('fluent_support/modify_selected_text', $prompt);
         $payload = [
             'message' => "Instruction: {$prompt} Now apply this to the given text: {$selectedText}",
-            'botId' => self::BOT_ID
         ];
 
         return $this->makeAPICall($payload, $prompt, $ticketId);
@@ -48,7 +46,6 @@ class CustomAIHelper
         $messages = $this->getSimpleTicketMessages($ticket);
         $payload = [
             'message' => "Instruction: {$prompt} Ticket Data: " . json_encode($messages),
-            'botId' => self::BOT_ID
         ];
 
         return $this->makeAPICall($payload, $prompt, $ticket->id);
@@ -62,7 +59,6 @@ class CustomAIHelper
         $messages = $this->getSimpleTicketMessages($ticket);
         $payload = [
             'message' =>  "Instruction: {$prompt} Ticket Data: " . json_encode($messages),
-            'botId' => self::BOT_ID
         ];
 
         return $this->makeAPICall($payload, $prompt, $ticket->id);
@@ -84,6 +80,9 @@ class CustomAIHelper
     private function makeAPICall(array $payload, string $prompt, int $ticketId, string $type = 'default')
     {
         $apiUrl = self::BASE_URL . self::ENDPOINTS[$type];
+
+        $payload['botId'] = self::BOT_ID;
+
         $api = new CustomAIAPI(self::API_KEY, $apiUrl);
         return $api->makeRequest($ticketId, $payload, $prompt);
     }
