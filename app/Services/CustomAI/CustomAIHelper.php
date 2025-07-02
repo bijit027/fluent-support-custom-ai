@@ -1,5 +1,4 @@
 <?php
-
 namespace FluentSupportCustomAI\App\Services\CustomAI;
 
 use FluentSupportCustomAI\App\Services\CustomAI\CustomAIAPI;
@@ -11,13 +10,12 @@ class CustomAIHelper
     const API_KEY = 'fak_PP8OzI9ciOeHEmznE7AqRyBMUZLNdQ8d';
     const BOT_ID = 'a9b9706b-9124-4a84-b234-3daa572dd04c';
 
-    // Endpoint mappings
     const ENDPOINTS = [
         'default' => '/responses',
         'ticket_reply' => '/fs-chat-completion',
     ];
 
-    public function generateResponse($prompt,$ticket, $previousAIResponse = '')
+    public function generateResponse($prompt, $ticket, $previousAIResponse = '')
     {
         $prompt = apply_filters('fluent_support/generate_response', $prompt, $ticket);
         $payload = [
@@ -58,7 +56,7 @@ class CustomAIHelper
 
         $messages = $this->getSimpleTicketMessages($ticket);
         $payload = [
-            'message' =>  "Instruction: {$prompt} Ticket Data: " . json_encode($messages),
+            'message' => "Instruction: {$prompt} Ticket Data: " . json_encode($messages),
         ];
 
         return $this->makeAPICall($payload, $prompt, $ticket->id);
@@ -79,11 +77,11 @@ class CustomAIHelper
 
     private function makeAPICall(array $payload, string $prompt, int $ticketId, string $type = 'default')
     {
-        $apiUrl = self::BASE_URL . self::ENDPOINTS[$type];
+        $apiUrl = static::BASE_URL . static::ENDPOINTS[$type];
 
-        $payload['botId'] = self::BOT_ID;
+        $payload['botId'] = static::BOT_ID;
 
-        $api = new CustomAIAPI(self::API_KEY, $apiUrl);
+        $api = new CustomAIAPI(static::API_KEY, $apiUrl);
         return $api->makeRequest($ticketId, $payload, $prompt);
     }
 
