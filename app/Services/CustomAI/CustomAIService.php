@@ -16,9 +16,9 @@ class CustomAIService
         return (new CustomAIHelper())->modifyResponse($prompt, $selectedText, $ticketId);
     }
 
-    public function generateResponse(string $responseContent, $ticket, $previousAIResponse = '')
+    public function generateResponse(string $responseContent, $ticket, $productId, $previousAIResponse = '')
     {
-        return (new CustomAIHelper())->generateResponse($responseContent, $ticket, $previousAIResponse);
+        return (new CustomAIHelper())->generateResponse($responseContent, $ticket, $productId, $previousAIResponse);
     }
 
     public function getTicketSummary($ticket)

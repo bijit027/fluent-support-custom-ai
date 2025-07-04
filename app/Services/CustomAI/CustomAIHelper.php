@@ -1,21 +1,20 @@
 <?php
 namespace FluentSupportCustomAI\App\Services\CustomAI;
 
+use FluentSupport\App\Models\Meta;
 use FluentSupportCustomAI\App\Services\CustomAI\CustomAIAPI;
 use FluentSupport\Framework\Support\Arr;
 
 class CustomAIHelper
 {
     const BASE_URL = 'https://fluent-ai-backend.jewel-e68.workers.dev/fluent-bot';
-    const API_KEY = 'fak_PP8OzI9ciOeHEmznE7AqRyBMUZLNdQ8d';
-    const BOT_ID = 'a9b9706b-9124-4a84-b234-3daa572dd04c';
 
     const ENDPOINTS = [
         'default' => '/responses',
         'ticket_reply' => '/fs-chat-completion',
     ];
 
-    public function generateResponse($prompt, $ticket, $previousAIResponse = '')
+    public function generateResponse($prompt, $ticket, $productId, $previousAIResponse = '')
     {
         $prompt = apply_filters('fluent_support/generate_response', $prompt, $ticket);
         $payload = [
@@ -23,7 +22,7 @@ class CustomAIHelper
             'messages' => $this->buildMessages($previousAIResponse, $prompt),
         ];
 
-        return $this->makeAPICall($payload, $prompt, $ticket->id, 'ticket_reply');
+        return $this->makeAPICall($payload, $prompt, $ticket->id,'ticket_reply', $productId);
     }
 
     public function modifyResponse($prompt, $selectedText, $ticketId)
@@ -75,14 +74,47 @@ class CustomAIHelper
         return [];
     }
 
-    private function makeAPICall(array $payload, string $prompt, int $ticketId, string $type = 'default')
+    private function makeAPICall(array $payload, string $prompt, int $ticketId, string $type = 'default', $productId = null )
     {
         $apiUrl = static::BASE_URL . static::ENDPOINTS[$type];
 
-        $payload['botId'] = static::BOT_ID;
+        $credentials = $this->resolveApiCredentials($productId);
 
-        $api = new CustomAIAPI(static::API_KEY, $apiUrl);
+        $payload['botId'] = $credentials['botId'];
+
+        $api = new CustomAIAPI($credentials['apiKey'], $apiUrl);
         return $api->makeRequest($ticketId, $payload, $prompt);
+    }
+
+
+    private function resolveApiCredentials($productId): array
+    {
+        $meta = Meta::where([
+            'object_type' => 'fluent_bot_settings',
+            'object_id'   => 1,
+            'key'         => '_fs_fluent_bot_config'
+        ])->first();
+
+        $config = $meta ? unserialize($meta->value) : [];
+
+        $apiKey = $config['generalApiKey'] ?? '';
+        $botId = $config['generalBotId'] ?? '';
+
+        // If product ID is valid and productMappings exist
+        if ($productId && !empty($config['productMappings']) && is_array($config['productMappings'])) {
+            foreach ($config['productMappings'] as $mapping) {
+                if ((int)$mapping['productId'] === (int)$productId) {
+                    $apiKey = $mapping['apiKey'] ?? $apiKey;
+                    $botId = $mapping['botId'] ?? $botId;
+                    break;
+                }
+            }
+        }
+
+        return [
+            'apiKey' => $apiKey,
+            'botId'  => $botId
+        ];
     }
 
     private function getTicketMessages($ticket): array
